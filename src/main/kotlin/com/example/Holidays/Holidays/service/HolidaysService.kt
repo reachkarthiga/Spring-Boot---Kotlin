@@ -19,4 +19,12 @@ class HolidaysService(private val holidayDataSource: HolidayDataSource) {
         return holidayDataSource.createHoliday(holiday)
     }
 
+    fun updateHoliday(holiday: Holiday): Holiday {
+        return holidayDataSource.updateHoliday(holiday)
+    }
+
+    fun deleteHoliday(name: String): Any {
+        return holidayDataSource.deleteHoliday(name)
+    }
+
 }

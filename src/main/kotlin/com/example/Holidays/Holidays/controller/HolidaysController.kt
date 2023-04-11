@@ -32,4 +32,10 @@ class HolidaysController(private val service: HolidaysService) {
     @ResponseStatus(HttpStatus.CREATED)
     fun createHoliday(@RequestBody holiday: Holiday) :Holiday  = service.addHoliday(holiday)
 
+    @PatchMapping
+    fun updateHoliday(@RequestBody holiday: Holiday) :Holiday = service.updateHoliday(holiday)
+
+    @DeleteMapping("/{name}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteHoliday(@PathVariable name:String) = service.deleteHoliday(name)
 }

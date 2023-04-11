@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
-import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.*
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -27,7 +25,7 @@ internal class HolidaysControllerTest @Autowired constructor(
     @Nested
     @DisplayName("GET /api/holidays")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    inner class GetAllBank {
+    inner class GetAllHoliday {
         @Test
         fun should_return_all_holidays() {
 
@@ -45,7 +43,7 @@ internal class HolidaysControllerTest @Autowired constructor(
     @Nested
     @DisplayName("GET /api/holidays/{name}")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    inner class GetOneBank {
+    inner class GetOneHoliday {
 
         @Test
         fun should_return_holiday_by_name() {
@@ -112,5 +110,77 @@ internal class HolidaysControllerTest @Autowired constructor(
 
         }
     }
+
+    @Nested
+    @DisplayName("PATCH /api/holidays")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class PatchHoliday {
+
+        @Test
+        fun updateHoliday() {
+            val newHoliday = Holiday("New Year", "02-01-2023")
+
+            mockMvc.patch(baseURL) {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(newHoliday)
+            }
+                .andDo {
+                    print()
+                }.andExpect {
+                    status { isOk() }
+                    content { jsonPath( "$.date") {value("02-01-2023")}  }
+                }
+
+        }
+
+        @Test
+        fun updateHolidays_BadRequest() {
+            val newHoliday = Holiday("Chinese New Year", "01-01-2023")
+
+            mockMvc.patch(baseURL) {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(newHoliday)
+            }
+                .andDo {
+                    print()
+                }.andExpect {
+                    status { isNotFound() }
+                }
+
+        }
+    }
+
+    @Nested
+    @DisplayName("DELETE /api/holidays/{name}")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class DeleteHoliday {
+
+        @Test
+        fun deleteHoliday() {
+            val toDeleteHoliday = "New Year"
+
+            mockMvc.delete("$baseURL/$toDeleteHoliday")
+                .andDo {
+                    print()
+                }.andExpect {
+                    status { isNoContent() }
+                }
+
+        }
+
+        @Test
+        fun deleteHoliday_BadRequest() {
+            val toDeleteHoliday = "Tamil New Year"
+
+            mockMvc.delete("$baseURL/$toDeleteHoliday")
+                .andDo {
+                    print()
+                }.andExpect {
+                    status { isNotFound() }
+                }
+
+        }
+    }
+
 }
 

@@ -33,4 +33,23 @@ class MockDataSource:HolidayDataSource {
     }
 
 
+    override fun updateHoliday(holiday: Holiday): Holiday {
+
+        val toReplace = (holidaysList.firstOrNull { it.name == holiday.name }) ?: throw NoSuchElementException("Cannot find such Element ${holiday.name}")
+
+        holidaysList.remove(toReplace)
+        holidaysList.add(holiday)
+
+        return holiday
+
+    }
+
+    override fun deleteHoliday(holidayName: String) {
+
+        val toDelete = (holidaysList.firstOrNull { it.name == holidayName }) ?: throw NoSuchElementException("Cannot find such Element $holidayName")
+        holidaysList.remove(toDelete)
+
+    }
+
+
 }

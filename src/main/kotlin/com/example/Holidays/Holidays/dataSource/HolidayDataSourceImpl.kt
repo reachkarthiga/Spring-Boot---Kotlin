@@ -22,4 +22,13 @@ class HolidayDataSourceImpl :HolidayDataSource {
        kotlin.TODO()
     }
 
+    override fun updateHoliday(holiday: Holiday): Holiday {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteHoliday(holidayName: String) {
+        TODO("Not yet implemented")
+    }
+
+
 }
