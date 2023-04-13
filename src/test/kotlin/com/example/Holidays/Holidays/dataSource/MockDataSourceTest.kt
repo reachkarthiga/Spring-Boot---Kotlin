@@ -1,7 +1,6 @@
 package com.example.Holidays.Holidays.dataSource
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class MockDataSourceTest {
@@ -14,7 +13,7 @@ internal class MockDataSourceTest {
         assertThat(holidays.size).isEqualTo(2)
 
         assertThat(holidays).allMatch { it.date.isNotEmpty() }
-        assertThat(holidays).allMatch { it.name.isNotEmpty() }
+        assertThat(holidays).allMatch { it.holidayName.isNotEmpty() }
 
     }
 }

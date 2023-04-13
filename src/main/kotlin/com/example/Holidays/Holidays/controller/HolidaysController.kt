@@ -5,7 +5,9 @@ import com.example.Holidays.Holidays.service.HolidaysService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.*
 import kotlin.IllegalArgumentException
+import kotlin.NoSuchElementException
 
 @RestController
 @RequestMapping("/api/holidays")
@@ -25,17 +27,17 @@ class HolidaysController(private val service: HolidaysService) {
     @GetMapping
     fun getHolidays(): Collection<Holiday> = service.getHolidays()
 
-    @GetMapping("/{name}")
-    fun getHoliday(@PathVariable name: String) :Holiday = service.getHoliday(name)
+    @GetMapping("/{holidayName}")
+    fun getHoliday(@PathVariable holidayName: String) : Optional<Holiday> = service.getHoliday(holidayName)
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createHoliday(@RequestBody holiday: Holiday) :Holiday  = service.addHoliday(holiday)
 
-    @PatchMapping
-    fun updateHoliday(@RequestBody holiday: Holiday) :Holiday = service.updateHoliday(holiday)
+    @PutMapping
+    fun updateHoliday( @RequestBody holiday: Holiday) :Holiday = service.updateHoliday(holiday)
 
-    @DeleteMapping("/{name}")
+    @DeleteMapping("/{holidayName}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteHoliday(@PathVariable name:String) = service.deleteHoliday(name)
+    fun deleteHoliday(@PathVariable holidayName: String) = service.deleteHoliday(holidayName)
 }
