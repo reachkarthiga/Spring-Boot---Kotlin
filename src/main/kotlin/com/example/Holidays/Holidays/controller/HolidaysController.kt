@@ -22,7 +22,7 @@ class HolidaysController(private val service: HolidaysService) {
 
     @ExceptionHandler(IllegalArgumentException::class)
     fun recordAlreadyExists(e:IllegalArgumentException) :ResponseEntity<String> {
-        return ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        return ResponseEntity(e.message, HttpStatus.CONFLICT)
     }
 
     @ExceptionHandler(NumberFormatException::class)
@@ -43,7 +43,7 @@ class HolidaysController(private val service: HolidaysService) {
     @ResponseStatus(HttpStatus.CREATED)
     fun createHoliday(@RequestBody holiday: Holiday) :Holiday  = service.addHoliday(holiday)
 
-    @PutMapping
+    @PatchMapping
     fun updateHoliday( @RequestBody holiday: Holiday) :Holiday = service.updateHoliday(holiday)
 
     @DeleteMapping("/{holidayName}")

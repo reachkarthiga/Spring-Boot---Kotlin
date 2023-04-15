@@ -56,8 +56,16 @@ class HolidaysService(private val holidayDataSource: HolidayDataSource) {
     fun updateHoliday(holiday: Holiday): Holiday {
 
         if (holiday.id?.let { holidayDataSource.existsById(it) } == true) {
+
+            try {
+                sdf.parse(holiday.date)
+            } catch (e:Exception) {
+                throw NumberFormatException("Date should be in yyyy-MM-dd format")
+            }
+
             holidayDataSource.save(holiday)
             return holiday
+
         } else {
             throw NoSuchElementException("Cannot find ${holiday.holidayName}")
         }
