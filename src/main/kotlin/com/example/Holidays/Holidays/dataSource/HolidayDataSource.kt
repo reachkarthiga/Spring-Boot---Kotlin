@@ -17,5 +17,7 @@ interface HolidayDataSource :JpaRepository<Holiday, Long>
     @Query("DELETE FROM Holiday h WHERE h.holidayName = :name")
     fun deleteByName(name:String) :Unit
 
+    @Query("SELECT h FROM Holiday h WHERE h.date >= :date")
+    fun getHolidayByDate(date:String) :Collection<Holiday>
 
 }
